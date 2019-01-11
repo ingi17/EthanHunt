@@ -38,11 +38,13 @@ public class EthanHunt implements Agent {
 				moves++;
 				updateCoords();
 				return "GO";
-			}else if(moves == maxX){
+			} else if(moves == maxX){
 				moves = 0;
 				leftCounter++;
+
 				if (leftCounter == 1) { maxX--; }
 				else if (leftCounter % 2 != 0) { maxX--; }
+
 				return TURN_LEFT();
 			}
 		}
@@ -61,7 +63,7 @@ public class EthanHunt implements Agent {
 		
 		System.out.printf("X:%d, Y:%d ", x, y);
 		updateCoords();
-		return "GO";
+		return GO();
 		//String[] actions = { "TURN_ON", "TURN_OFF", "TURN_RIGHT", "TURN_LEFT", "GO", "SUCK" };
 	}
 
@@ -69,7 +71,7 @@ public class EthanHunt implements Agent {
 		state++;
 	}
 
-	private void updateCoords(){
+	private string GO(){
 		if (horizontal) {
 			if (left) {
 				x--;
@@ -83,6 +85,7 @@ public class EthanHunt implements Agent {
 				y++;
 			}
 		}
+		return "GO";
 	}
 
 	private String TURN_LEFT(){
@@ -90,6 +93,11 @@ public class EthanHunt implements Agent {
 			left = !left;
 		}
 		horizontal = !horizontal;
+		if(direction == 3) {
+			direction = 0;
+		} else {
+			direction++;
+		}
 		return "TURN_LEFT";
 	}
 
@@ -97,19 +105,59 @@ public class EthanHunt implements Agent {
 		if(bumps % 2 == 0){
 			left = !left;
 		}
+		if(direction == 0) {
+			direction = 3;
+		} else {
+			direction++;
+		}
 		horizontal = !horizontal;
 		return "TURN_RIGHT";
 	}
 
 	private String homeHandler(){
-		if(x == 0 && y == 0) { return "TURN_OFF"; }
+		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
+		// CASE 0: Byrjunarátt 0 og Endaátt 0
+		if (direction == 0) {
+			if (x > 0) {
+				if (leftCounter < 2) {
+					leftCounter++;
+					return TURN_LEFT(); 
+				}
+				leftCounter = 0;
+				return GO();
+			} else if (x < 0) {
+				return GO();
+			}
+			if (y > 0) {
+				if (direction == 2) {
+					return TURN_LEFT();
+				} else if (direction == 0) {
+					return TURN_RIGHT();
+				}
+				return GO();
+			} else if (y < 0) {
+				if (direction == 2) {
+					return TURN_RIGHT();
+				} else if (direction == 0) {
+					return TURN_LEFT();
+				}
+				return GO();
+			}
+		} // CASE 0: END
+
+		// CASE 1: Byrjunarátt 0 og endaátt 1
+		if (direction == 1) {
+
+		}
+
 		if(x > 0) {
 			if(leftCounter < 2){
 				leftCounter++;
 				return TURN_LEFT();
 			}
-			if(leftCounter != 0) {leftCounter = 0; }
+			if(leftCounter != 0) { leftCounter = 0; }
 			return "GO";
+
 		} else if(x < 0){
 			if(rightCounter < 2){
 				rightCounter++;
@@ -121,7 +169,7 @@ public class EthanHunt implements Agent {
 
 		return "ERROR";
 	}
-	private int state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
+	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
 	private int lastX, lastY;
 	private boolean horizontal;		//Going up or down
 	private boolean left; 			//Going left or right			
