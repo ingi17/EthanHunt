@@ -1,6 +1,10 @@
 import java.util.Collection;
 
 public class EthanHunt implements Agent {
+	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
+	private int lastX, lastY;
+	private boolean horizontal;		//Going up or down
+	private boolean left; 			//Going left or right	
 	
 	public String nextAction(Collection<String> percepts) {
 		System.out.print("perceiving:");
@@ -56,12 +60,6 @@ public class EthanHunt implements Agent {
 			maxX--;
 			nextState();
 		}
-
-		
-
-		System.out.println("");
-		
-		System.out.printf("X:%d, Y:%d ", x, y);
 		//updateCoords();
 		return GO();
 		//String[] actions = { "TURN_ON", "TURN_OFF", "TURN_RIGHT", "TURN_LEFT", "GO", "SUCK" };
@@ -247,8 +245,5 @@ public class EthanHunt implements Agent {
 
 		return "ERROR";
 	}
-	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
-	private int lastX, lastY;
-	private boolean horizontal;		//Going up or down
-	private boolean left; 			//Going left or right			
+		
 }
