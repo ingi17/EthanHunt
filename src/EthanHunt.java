@@ -94,6 +94,8 @@ public class EthanHunt implements Agent {
 		} else if (direction == 3) {
 			x++;
 		}
+		System.out.println("X: " + x + " Y: " + y);
+		System.out.println("Direction: " + direction);
 		return "GO";
 	}
 
