@@ -1,7 +1,7 @@
 import java.util.Collection;
 
 public class EthanHunt implements Agent {
-	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
+	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0, homeCase;
 	private int lastX, lastY;
 	private boolean horizontal;		//Going up or down
 	private boolean left; 			//Going left or right	
@@ -55,8 +55,13 @@ public class EthanHunt implements Agent {
 			}
 		}
 		if(state == 3){
-			return homeHandler();
+			homeCase = direction;
+			nextState();
 		}
+		if(state == 4) {
+			homeHandler(homeCase);
+		}
+		
 		if(bumps == 4){
 			//System.out.printf("MAX X:%d, MAX Y:%d ", maxX, maxY);
 			maxX--;
@@ -68,31 +73,36 @@ public class EthanHunt implements Agent {
 	}
 
 	private void nextState(){
+		System.out.println("-------STATE: " + state)
 		state++;
 	}
 
 	private String GO(){
-		/*if (horizontal) {
-			if (left) {
-				x--;
+		if (state < 3) {
+			if (horizontal) {
+				if (left) {
+					x--;
+				} else {
+					x++;
+				}
 			} else {
-				x++;
+				if (left) {
+					y--;
+				} else {
+					y++;
+				}
 			}
-		} else {
-			if (left) {
+		}
+		else {
+			if (direction == 0)  {
+				x++;
+			} else if (direction == 1)  {
 				y--;
-			} else {
+			} else if (direction == 2) {
+				x--;
+			} else if (direction == 3) {
 				y++;
 			}
-		}*/
-		if (direction == 0) {
-			x++;
-		} else if (direction == 1) {
-			y--;
-		} else if (direction == 2) {
-			x--;
-		} else if (direction == 3) {
-			y++;
 		}
 		System.out.println("X: " + x + " Y: " + y);
 		System.out.println("Direction: " + direction);
@@ -125,12 +135,12 @@ public class EthanHunt implements Agent {
 		return "TURN_RIGHT";
 	}
 
-	private String homeHandler(){
+	private String homeHandler(hCase){
 		
 		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
 
 		// CASE 0: Byrjunarátt 0 og Endaátt 0
-		if (direction == 0) {
+		if (hCase == 0) {
 			if (x > 0) {
 				if (leftCounter < 2) {
 					leftCounter++;
@@ -159,7 +169,7 @@ public class EthanHunt implements Agent {
 		} // CASE 0: END
 
 		// CASE 1: Byrjunarátt 0 og endaátt 1
-		if (direction == 1) {
+		if (hCase == 1) {
 			if (y > 0) {
 				if (leftCounter < 2) {
 					leftCounter++;
@@ -185,10 +195,11 @@ public class EthanHunt implements Agent {
 				}
 				return GO();
 			}
-		} // CASE 1: END
-
+	 	// CASE 1: END
+		}
+		
+		if (hCase == 2) {
 		// CASE 2: Byrjunarátt 0 og endaátt 2
-		if (direction == 2) {
 			if (x < 0) {
 				if (leftCounter < 2) {
 					leftCounter++;
@@ -216,8 +227,8 @@ public class EthanHunt implements Agent {
 			}
 		} // CASE 2: END
 
-		// CASE 3: Byrjunarátt 0 og endaátt 3
-		if (direction == 3) {
+		if (hCase == 3) {
+			// CASE 3: Byrjunarátt 0 og endaátt 3
 			if (y < 0) {
 				if (leftCounter < 2) {
 					leftCounter++;
@@ -242,10 +253,7 @@ public class EthanHunt implements Agent {
 					return TURN_LEFT();
 				}
 				return GO();
-			}
-		} // CASE 3: END
-
-		return "ERROR";
-	}
-		
+			} // CASE 3: END
+		}
+	return "ERROR";
 }
