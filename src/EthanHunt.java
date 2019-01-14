@@ -118,7 +118,7 @@ public class EthanHunt implements Agent {
 		if(direction == 0) {
 			direction = 3;
 		} else {
-			direction++;
+			direction--;
 		}
 		horizontal = !horizontal;
 		return "TURN_RIGHT";
