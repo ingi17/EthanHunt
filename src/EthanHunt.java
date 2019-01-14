@@ -72,7 +72,7 @@ public class EthanHunt implements Agent {
 	}
 
 	private string GO(){
-		if (horizontal) {
+		/*if (horizontal) {
 			if (left) {
 				x--;
 			} else {
@@ -84,6 +84,15 @@ public class EthanHunt implements Agent {
 			} else {
 				y++;
 			}
+		}*/
+		if (direction == 0) {
+			x++;
+		} else if (direction == 1) {
+			y--;
+		} else if (direction == 2) {
+			x--;
+		} else if (direction == 3) {
+			x++;
 		}
 		return "GO";
 	}
@@ -115,7 +124,9 @@ public class EthanHunt implements Agent {
 	}
 
 	private String homeHandler(){
+		leftCounter = 0;
 		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
+
 		// CASE 0: Byrjunarátt 0 og Endaátt 0
 		if (direction == 0) {
 			if (x > 0) {
@@ -123,11 +134,11 @@ public class EthanHunt implements Agent {
 					leftCounter++;
 					return TURN_LEFT(); 
 				}
-				leftCounter = 0;
 				return GO();
 			} else if (x < 0) {
 				return GO();
 			}
+			
 			if (y > 0) {
 				if (direction == 2) {
 					return TURN_LEFT();
@@ -147,25 +158,90 @@ public class EthanHunt implements Agent {
 
 		// CASE 1: Byrjunarátt 0 og endaátt 1
 		if (direction == 1) {
-
-		}
-
-		if(x > 0) {
-			if(leftCounter < 2){
-				leftCounter++;
-				return TURN_LEFT();
+			if (y > 0) {
+				if (leftCounter < 2) {
+					leftCounter++;
+					return TURN_LEFT(); 
+				}
+				return GO();
+			} else if (y < 0) {
+				return GO();
 			}
-			if(leftCounter != 0) { leftCounter = 0; }
-			return "GO";
-
-		} else if(x < 0){
-			if(rightCounter < 2){
-				rightCounter++;
-				return TURN_RIGHT();
+		
+			if (x > 0) {
+				if (direction == 1) {
+					return TURN_LEFT();
+				} else if (direction == 3) {
+					return TURN_RIGHT();
+				}
+				return GO();
+			} else if (x < 0) {
+				if (direction == 3) {
+					return TURN_RIGHT();
+				} else if (direction == 1) {
+					return TURN_LEFT();
+				}
+				return GO();
 			}
-			if(rightCounter != 0) {rightCounter = 0; }
+		} // CASE 1: END
+
+		// CASE 2: Byrjunarátt 0 og endaátt 2
+		if (direction == 2) {
+			if (x < 0) {
+				if (leftCounter < 2) {
+					leftCounter++;
+					return TURN_LEFT(); 
+				}
+				return GO();
+			} else if (x > 0) {
+				return GO();
+			}
 			
-		} 
+			if (y > 0) {
+				if (direction == 2) {
+					return TURN_LEFT();
+				} else if (direction == 0) {
+					return TURN_RIGHT();
+				}
+				return GO();
+			} else if (y < 0) {
+				if (direction == 2) {
+					return TURN_RIGHT();
+				} else if (direction == 0) {
+					return TURN_LEFT();
+				}
+				return GO();
+			}
+		} // CASE 2: END
+
+		// CASE 3: Byrjunarátt 0 og endaátt 3
+		if (direction == 3) {
+			if (y < 0) {
+				if (leftCounter < 2) {
+					leftCounter++;
+					return TURN_LEFT(); 
+				}
+				return GO();
+			} else if (y > 0) {
+				return GO();
+			}
+		
+			if (x < 0) {
+				if (direction == 3) {
+					return TURN_LEFT();
+				} else if (direction == 1) {
+					return TURN_RIGHT();
+				}
+				return GO();
+			} else if (x > 0) {
+				if (direction == 3) {
+					return TURN_RIGHT();
+				} else if (direction == 1) {
+					return TURN_LEFT();
+				}
+				return GO();
+			}
+		} // CASE 3: END
 
 		return "ERROR";
 	}
