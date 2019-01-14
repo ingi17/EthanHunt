@@ -36,6 +36,7 @@ public class EthanHunt implements Agent {
 			if (bumps == 2) {
 				maxX++;
 			} else if(bumps == 3) {
+				System.out.println("maxX: " + maxX);
 				maxY++;
 			}
 		} else if(state == 2){
