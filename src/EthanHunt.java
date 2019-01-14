@@ -11,6 +11,7 @@ public class EthanHunt implements Agent {
 		if(state == 0){
 			x = 0;
 			y = 0;
+			direction = 0;
 			nextState();
 			return "TURN_ON";	
 		}
@@ -19,7 +20,7 @@ public class EthanHunt implements Agent {
 			System.out.print("'" + percept + "', ");
 			if(percept.equals("DIRT")) {
 				return "SUCK";
-			} else if(percept.equals("BUMP") && state < 2) {
+			} else if(percept.equals("BUMP")) {
 				bumps++;
 				return TURN_LEFT();
 			}	
@@ -41,7 +42,7 @@ public class EthanHunt implements Agent {
 			if(moves < maxX){
 				moves++;
 				//updateCoords();
-				return "GO";
+				return GO();
 			} else if(moves == maxX){
 				moves = 0;
 				leftCounter++;
@@ -90,7 +91,7 @@ public class EthanHunt implements Agent {
 		} else if (direction == 2) {
 			x--;
 		} else if (direction == 3) {
-			x++;
+			y++;
 		}
 		System.out.println("X: " + x + " Y: " + y);
 		System.out.println("Direction: " + direction);
