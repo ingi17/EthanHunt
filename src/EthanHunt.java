@@ -36,7 +36,7 @@ public class EthanHunt implements Agent {
 		} else if(state == 2){
 			if(moves < maxX){
 				moves++;
-				updateCoords();
+				//updateCoords();
 				return "GO";
 			} else if(moves == maxX){
 				moves = 0;
@@ -62,7 +62,7 @@ public class EthanHunt implements Agent {
 		System.out.println("");
 		
 		System.out.printf("X:%d, Y:%d ", x, y);
-		updateCoords();
+		//updateCoords();
 		return GO();
 		//String[] actions = { "TURN_ON", "TURN_OFF", "TURN_RIGHT", "TURN_LEFT", "GO", "SUCK" };
 	}
@@ -71,7 +71,7 @@ public class EthanHunt implements Agent {
 		state++;
 	}
 
-	private string GO(){
+	private String GO(){
 		/*if (horizontal) {
 			if (left) {
 				x--;
@@ -124,7 +124,7 @@ public class EthanHunt implements Agent {
 	}
 
 	private String homeHandler(){
-		leftCounter = 0;
+		
 		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
 
 		// CASE 0: Byrjunarátt 0 og Endaátt 0
@@ -138,7 +138,7 @@ public class EthanHunt implements Agent {
 			} else if (x < 0) {
 				return GO();
 			}
-			
+			leftCounter = 0;
 			if (y > 0) {
 				if (direction == 2) {
 					return TURN_LEFT();
@@ -167,7 +167,7 @@ public class EthanHunt implements Agent {
 			} else if (y < 0) {
 				return GO();
 			}
-		
+			leftCounter = 0;
 			if (x > 0) {
 				if (direction == 1) {
 					return TURN_LEFT();
@@ -196,7 +196,7 @@ public class EthanHunt implements Agent {
 			} else if (x > 0) {
 				return GO();
 			}
-			
+			leftCounter = 0;
 			if (y > 0) {
 				if (direction == 2) {
 					return TURN_LEFT();
@@ -225,7 +225,7 @@ public class EthanHunt implements Agent {
 			} else if (y > 0) {
 				return GO();
 			}
-		
+			leftCounter = 0;
 			if (x < 0) {
 				if (direction == 3) {
 					return TURN_LEFT();
