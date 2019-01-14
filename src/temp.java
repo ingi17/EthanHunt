@@ -1,17 +1,13 @@
 import java.util.Collection;
 
 public class EthanHunt implements Agent {
-	private int state = 0, x = 0, y = 0, direction = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0, homeCase;
-	private int lastX, lastY;
-	private boolean horizontal;		//Going up or down
-	private boolean left; 			//Going left or right	
 	
 	public String nextAction(Collection<String> percepts) {
 		System.out.print("perceiving:");
 		if(state == 0){
 			x = 0;
 			y = 0;
-			direction = 0;
+            direction = 0;
 			nextState();
 			return "TURN_ON";	
 		}
@@ -20,7 +16,7 @@ public class EthanHunt implements Agent {
 			System.out.print("'" + percept + "', ");
 			if(percept.equals("DIRT")) {
 				return "SUCK";
-			} else if(percept.equals("BUMP")) {
+			} else if(percept.equals("BUMP") && state < 2) {
 				bumps++;
 				return TURN_LEFT();
 			}	
@@ -36,85 +32,73 @@ public class EthanHunt implements Agent {
 			if (bumps == 2) {
 				maxX++;
 			} else if(bumps == 3) {
-				System.out.println("maxX: " + maxX);
 				maxY++;
 			}
 		} else if(state == 2){
 			if(moves < maxX){
 				moves++;
-				//updateCoords();
-				return GO();
-			} else if(moves == maxX){
+				updateCoords();
+				return "GO";
+			}else if(moves == maxX){
 				moves = 0;
-				leftCounter++;
-
+                leftCounter++;
+                
 				if (leftCounter == 1) { maxX--; }
-				else if (leftCounter % 2 != 0) { maxX--; }
-
+                else if (leftCounter % 2 != 0) { maxX--; }
+                
 				return TURN_LEFT();
 			}
 		}
 		if(state == 3){
-			homeCase = direction;
-			nextState();
-		}
-		if(state == 4) {
-			return homeHandler(homeCase);
-		}
-		
+            homeCase = direction;
+            nextState();
+			
+        }
+        if (state == 4) {
+            return homeHandler(homeCase);
+        }
 		if(bumps == 4){
 			//System.out.printf("MAX X:%d, MAX Y:%d ", maxX, maxY);
 			maxX--;
 			nextState();
 		}
-		//updateCoords();
-		return GO();
+
+		
+
+		System.out.println("");
+		
+		System.out.printf("X:%d, Y:%d ", x, y);
+		updateCoords();
+		return "GO";
 		//String[] actions = { "TURN_ON", "TURN_OFF", "TURN_RIGHT", "TURN_LEFT", "GO", "SUCK" };
 	}
 
 	private void nextState(){
-		System.out.println("-------STATE: " + state)
 		state++;
 	}
 
-	private String GO(){
-		if (state < 3) {
-			if (horizontal) {
-				if (left) {
-					x--;
-				} else {
-					x++;
-				}
-			} else {
-				if (left) {
-					y--;
-				} else {
-					y++;
-				}
-			}
-		}
-		else {
-			if (direction == 0)  {
-				x++;
-			} else if (direction == 1)  {
-				y--;
-			} else if (direction == 2) {
+	private void updateCoords(){
+		if (horizontal) {
+			if (left) {
 				x--;
-			} else if (direction == 3) {
+			} else {
+				x++;
+			}
+		} else {
+			if (left) {
+				y--;
+			} else {
 				y++;
 			}
 		}
-		System.out.println("X: " + x + " Y: " + y);
-		System.out.println("Direction: " + direction);
-		return "GO";
 	}
 
 	private String TURN_LEFT(){
 		if(bumps % 2 == 0){
 			left = !left;
 		}
-		horizontal = !horizontal;
-		if(direction == 3) {
+        horizontal = !horizontal;
+        if(direction == 3) {
 			direction = 0;
 		} else {
 			direction++;
@@ -125,8 +109,8 @@ public class EthanHunt implements Agent {
 	private String TURN_RIGHT(){
 		if(bumps % 2 == 0){
 			left = !left;
-		}
-		if(direction == 0) {
+        }
+        if(direction == 0) {
 			direction = 3;
 		} else {
 			direction--;
@@ -135,7 +119,7 @@ public class EthanHunt implements Agent {
 		return "TURN_RIGHT";
 	}
 
-	private String homeHandler(hCase){
+    private String homeHandler(hCase){
 		
 		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
 
@@ -256,4 +240,9 @@ public class EthanHunt implements Agent {
 			} // CASE 3: END
 		}
 	return "ERROR";
+}
+	private int state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
+	private int lastX, lastY;
+	private boolean horizontal;		//Going up or down
+	private boolean left; 			//Going left or right			
 }
