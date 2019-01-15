@@ -3,6 +3,13 @@ import java.util.Collection;
 public class EthanHunt implements Agent {
 	
 	public String nextAction(Collection<String> percepts) {
+		
+		// STATE 0: TURN ON
+		// STATE 1: Locate corner and count width
+		// STATE 2: Spiral to middle
+		// State 3: Decide direction related to starting direction
+		// State 4: Return home with case related to direction
+
 		if(state == 0){
 			x = 0;
 			y = 0;
