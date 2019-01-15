@@ -22,14 +22,6 @@ public class EthanHunt implements Agent {
 			}	
 		}
 
-		if(maxX == 0 && state == 2){
-			nextState();
-			horizontal = true;
-			left = true;
-			leftCounter = 0;
-		}
-
-
 		if (state == 1) {
 			if (bumps == 2) {
 				width++;
@@ -260,10 +252,10 @@ public class EthanHunt implements Agent {
 		}
 	return "ERROR";
 	}
-	private int x, y, direction;
-	private int state = 0, bumps = 0, width = 0, height = 0, moves = 0, leftcounter = 0;
+	private int x, y, direction, homeCase;
+	private int state = 0, bumps = 0, width = 0, height = 0, moves = 0, leftCounter = 0;
 
-	private int direction = 0, homeCase, state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
+	//private int direction = 0, homeCase, state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
 	private boolean horizontal;		//Going up or down
 	private boolean left; 			//Going left or right			
 }
