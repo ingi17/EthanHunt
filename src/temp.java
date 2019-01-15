@@ -1,6 +1,6 @@
 import java.util.Collection;
-
-public class EthanHunt implements Agent {
+/*
+public class temp implements Agent {
 	
 	public String nextAction(Collection<String> percepts) {
 		System.out.print("perceiving:");
@@ -119,7 +119,7 @@ public class EthanHunt implements Agent {
 		return "TURN_RIGHT";
 	}
 
-    private String homeHandler(hCase){
+    private String homeHandler(int hCase){
 		
 		if(x == 0 && y == 0) { return "TURN_OFF"; } // BASE CASE TURN_OFF
 
@@ -240,9 +240,9 @@ public class EthanHunt implements Agent {
 			} // CASE 3: END
 		}
 	return "ERROR";
-}
+	}
 	private int state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
 	private int lastX, lastY;
 	private boolean horizontal;		//Going up or down
 	private boolean left; 			//Going left or right			
-}
+}*/

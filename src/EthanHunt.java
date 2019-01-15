@@ -18,7 +18,7 @@ public class EthanHunt implements Agent {
 				return "SUCK";
 			} else if(percept.equals("BUMP") && state < 2) {
 				bumps++;
-				return TURN_LEFT();
+				return TUR	N_LEFT();
 			}	
 		}
 
