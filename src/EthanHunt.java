@@ -3,7 +3,6 @@ import java.util.Collection;
 public class EthanHunt implements Agent {
 	
 	public String nextAction(Collection<String> percepts) {
-		System.out.print("perceiving:");
 		if(state == 0){
 			x = 0;
 			y = 0;
@@ -11,14 +10,15 @@ public class EthanHunt implements Agent {
 			nextState();
 			return "TURN_ON";	
 		}
-		 
+
+		System.out.print("perceiving:");
 		for(String percept:percepts) {
 			System.out.print("'" + percept + "', ");
 			if(percept.equals("DIRT")) {
 				return "SUCK";
-			} else if(percept.equals("BUMP") && state < 2) {
+			} else if(percept.equals("BUMP")) {
 				bumps++;
-				return TUR	N_LEFT();
+				return TURN_LEFT();
 			}	
 		}
 
@@ -28,49 +28,60 @@ public class EthanHunt implements Agent {
 			left = true;
 			leftCounter = 0;
 		}
-		if(state == 1){
+
+
+		if (state == 1) {
 			if (bumps == 2) {
-				maxX++;
-			} else if(bumps == 3) {
-				maxY++;
+				width++;
+			} else if (bumps == 3) {
+				height++;
+			} else if (bumps == 4) {
+				width--;
+				height--;
+				nextState();
 			}
-		} else if(state == 2){
-			if(moves < maxX){
-				moves++;
-				//updateCoords();
-				return GO();
-			}else if(moves == maxX){
-				moves = 0;
-                leftCounter++;
-                
-				if (leftCounter == 1) { maxX--; }
-                else if (leftCounter % 2 != 0) { maxX--; }
-                
-				return TURN_LEFT();
+		} 
+
+		if (state == 2) {
+			if (width == 0) {
+				nextState();
+			} else {
+				if (moves < width) {
+					moves++;
+					return GO();
+				} else if (moves == width) {
+					moves = 0;
+					leftCounter++;
+	
+					if (leftCounter == 1) { width--; }
+					else if (leftCounter % 2 != 0) { width--; }
+					
+					return TURN_LEFT();
+				}
 			}
 		}
+
 		if(state == 3){
 			System.out.println("\nGOING HOME WITH CASE " + direction +"\n");
             homeCase = direction;
-            nextState();	
+			state++;
         }
         if (state == 4) {
             return homeHandler(homeCase);
-        }
-		if(bumps == 4){
-			//System.out.printf("MAX X:%d, MAX Y:%d ", maxX, maxY);
-			maxX--;
-			nextState();
 		}
-		
-		updateCoords();
-		return "GO";
+
+		return GO();
 		//String[] actions = { "TURN_ON", "TURN_OFF", "TURN_RIGHT", "TURN_LEFT", "GO", "SUCK" };
 	}
 
 	private void nextState(){
 		state++;
 		System.out.println("----------State: " + state);
+		System.out.println("--------X: " + x);
+		System.out.println("--------Y: " + y);
+		System.out.println("--------DIR: " + direction);
+		System.out.println("--------Width: " + width);
+		System.out.println("");
 	}
 
 	private void updateCoords(){
@@ -103,34 +114,27 @@ public class EthanHunt implements Agent {
 			y++;
 		}
 	
-		System.out.println("X: " + x + " Y: " + y);
-		System.out.println("Direction: " + direction);
+		System.out.println("\nX: " + x + " Y: " + y + "\n");
 		return "GO";
 	}
 
 	private String TURN_LEFT(){
-		if(bumps % 2 == 0){
-			left = !left;
-		}
-        horizontal = !horizontal;
         if(direction == 3) {
 			direction = 0;
 		} else {
 			direction++;
 		}
+		System.out.println("--------DIR: " + direction);
 		return "TURN_LEFT";
 	}
 
 	private String TURN_RIGHT(){
-		if(bumps % 2 == 0){
-			left = !left;
-        }
         if(direction == 0) {
 			direction = 3;
 		} else {
 			direction--;
 		}
-		horizontal = !horizontal;
+		System.out.println("--------DIR: " + direction);
 		return "TURN_RIGHT";
 	}
 
@@ -256,8 +260,10 @@ public class EthanHunt implements Agent {
 		}
 	return "ERROR";
 	}
+	private int x, y, direction;
+	private int state = 0, bumps = 0, width = 0, height = 0, moves = 0, leftcounter = 0;
+
 	private int direction = 0, homeCase, state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
-	private int lastX, lastY;
 	private boolean horizontal;		//Going up or down
 	private boolean left; 			//Going left or right			
 }
