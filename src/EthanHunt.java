@@ -76,25 +76,6 @@ public class EthanHunt implements Agent {
 		System.out.println("");
 	}
 
-	private void updateCoords(){
-		if (horizontal) {
-			if (left) {
-				x--;
-			} else {
-				x++;
-			}
-		} else {
-			if (left) {
-				y--;
-			} else {
-				y++;
-			}
-		}
-		System.out.println("");
-		System.out.printf("X:%d, Y:%d ", x, y);
-		System.out.println("");
-	}
-
 	private String GO(){
 		if (direction == 0)  {
 			x++;
@@ -165,13 +146,13 @@ public class EthanHunt implements Agent {
 
 		// CASE 1: Byrjunarátt 0 og endaátt 1
 		if (hCase == 1) {
-			if (y > 0) {
+			if (y < 0) {
 				if (leftCounter < 2) {
 					leftCounter++;
 					return TURN_LEFT(); 
 				}
 				return GO();
-			} else if (y < 0) {
+			} else if (y > 0) {
 				return GO();
 			}
 			leftCounter = 0;
@@ -253,9 +234,5 @@ public class EthanHunt implements Agent {
 	return "ERROR";
 	}
 	private int x, y, direction, homeCase;
-	private int state = 0, bumps = 0, width = 0, height = 0, moves = 0, leftCounter = 0;
-
-	//private int direction = 0, homeCase, state = 0, x = 0, y = 0, bumps = 0, maxX = 0, maxY = 0, goCounter = 0, moves = 0, leftCounter = 0, rightCounter = 0;
-	private boolean horizontal;		//Going up or down
-	private boolean left; 			//Going left or right			
+	private int state = 0, bumps = 0, width = 0, height = 0, moves = 0, leftCounter = 0;		
 }
